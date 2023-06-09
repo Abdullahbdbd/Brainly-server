@@ -30,15 +30,32 @@ async function run() {
      
     const schoolCollection = client.db("summerDb").collection("school")
     const bookedCollection = client.db("summerDb").collection( "booked")
+    const usersCollection = client.db("summerDb").collection( "users")
 
 
+    // Users Collection API
+    app.put('/users/:email', async (req, res) => {
+        const email = req.params.email
+        const user = req.body
+        const query = { email: email }
+        const options = { upsert: true }
+        const updateDoc = {
+          $set: user,
+        }
+        const result = await usersCollection.updateOne(query, updateDoc, options)
+        console.log(result)
+        res.send(result)
+      })
+
+
+    // School Collection API
 
     app.get('/school', async(req, res)=>{
         const result = await schoolCollection.find().toArray();
         res.send(result)
     })
 
-    // Booked collection
+    // Booked collection API
 
     app.get('/booked', async(req, res)=>{
         const email = req.query.email;
