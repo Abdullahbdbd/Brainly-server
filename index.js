@@ -29,6 +29,7 @@ async function run() {
 
      
     const schoolCollection = client.db("summerDb").collection("school")
+    const bookedCollection = client.db("summerDb").collection( "booked")
 
 
 
@@ -36,6 +37,25 @@ async function run() {
         const result = await schoolCollection.find().toArray();
         res.send(result)
     })
+
+    // Booked collection
+
+    app.get('/booked', async(req, res)=>{
+        const email = req.query.email;
+        if(!email){
+            res.send([]);
+        }
+        const query = {email: email};
+        const result = await bookedCollection.find(query).toArray();
+        res.send(result)
+    });
+
+    app.post('/booked', async(req, res)=>{
+       const item = req.body;
+       console.log(item)
+       const result = await bookedCollection.insertOne(item)
+       res.send(result);
+    });
     
 
 
