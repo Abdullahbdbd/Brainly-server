@@ -7,13 +7,6 @@ const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const port = process.env.PORT || 5000;
 
 
-app.post('/jwt', (req, res) => {
-    const user = req.body;
-    const token = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '1h' })
-    res.send({ token })
-})
-
-
 // middleware
 app.use(cors());
 app.use(express.json());
@@ -39,6 +32,13 @@ async function run() {
     const schoolCollection = client.db("summerDb").collection("school")
     const bookedCollection = client.db("summerDb").collection( "booked")
     const usersCollection = client.db("summerDb").collection( "users")
+
+
+    app.post('/jwt', (req, res) => {
+        const user = req.body;
+        const token = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '1h' })
+        res.send({ token })
+    })
 
 
     // Users Collection API
