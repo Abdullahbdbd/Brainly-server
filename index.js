@@ -169,6 +169,14 @@ async function run() {
         res.send(result)
     })
 
+
+    app.delete('/school/:id', verifyJWT, verifyAdmin, async (req, res) => {
+        const id = req.params.id;
+        const query = { _id: new ObjectId(id) }
+        const result = await schoolCollection.deleteOne(query);
+        res.send(result);
+    })
+
     // Booked collection API
 
     app.get('/booked', verifyJWT, async(req, res)=>{
