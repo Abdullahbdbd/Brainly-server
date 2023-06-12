@@ -45,7 +45,7 @@ const client = new MongoClient(uri, {
 async function run() {
   try {
     // Connect the client to the server	(optional starting in v4.7)
-    await client.connect();
+    // await client.connect();
 
      
     const schoolCollection = client.db("summerDb").collection("school")
@@ -65,7 +65,6 @@ async function run() {
         const email = req.decoded.email;
         const query = { email: email }
         const user = await usersCollection.findOne(query);
-        console.log(user, email)
         if (user?.role !== 'admin') {
             return res.status(403).send({ error: true, message: 'Forbidden message' });
         }
@@ -100,7 +99,6 @@ async function run() {
           $set: user,
         }
         const result = await usersCollection.updateOne(query, updateDoc, options)
-        console.log(result)
         res.send(result)
       })
 
@@ -208,7 +206,6 @@ async function run() {
 
     app.post('/booked', async(req, res)=>{
        const item = req.body;
-       console.log(item)
        const result = await bookedCollection.insertOne(item)
        res.send(result);
     });
@@ -253,7 +250,7 @@ async function run() {
 
 
     // Send a ping to confirm a successful connection
-    await client.db("admin").command({ ping: 1 });
+    // await client.db("admin").command({ ping: 1 });
     console.log("Pinged your deployment. You successfully connected to MongoDB!");
   } finally {
     // Ensures that the client will close when you finish/error
