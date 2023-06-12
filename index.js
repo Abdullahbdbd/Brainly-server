@@ -181,6 +181,13 @@ async function run() {
         res.send(result);
     })
 
+    app.get('/school/:email', async (req, res) => {
+        const email = req.params.email
+        const query = { 'email': email }
+        const result = await schoolCollection.find(query).toArray()
+        res.send(result)
+      })
+
     // Booked collection API
 
     app.get('/booked', verifyJWT, async(req, res)=>{
